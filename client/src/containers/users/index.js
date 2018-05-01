@@ -38,14 +38,20 @@ class Home extends Component {
   componentDidUpdate(prevProps) {
     const { status, users } = this.props;
 
-    if (prevProps.status !== status && status === 'success' && users.length > 0) {
-      this.setState({ loading: true });
-      this.imagesToLoad = new Set(users.map(user => user.id));
+    if (prevProps.status !== status) {
+      if (status === 'request') return this.setState({ loading: true });
+
+      if (status === 'success') {
+        if (users.length > 0) {
+          this.imagesToLoad = new Set(users.map(user => user.id));
+        } else {
+          this.setState({ loading: false });
+        }
+      }
     }
   }
 
   handleImageLoaded = id => {
-    console.log(id)
     this.imagesToLoad.delete(id);
     if (this.imagesToLoad.size === 0) this.setState({ loading: false });
   }
@@ -126,12 +132,26 @@ class Home extends Component {
       <div style={{ margin: 12, display: 'flex', justifyContent: 'space-between' }}>
         {
           this.props.previousPageUrl ?
-            <Button raised color="primary" style={{ marginRight: 8 }} onClick={this.handlePreviousPageClick}>Back</Button>
+            <Button
+              disabled={this.state.loading}
+              raised="true"
+              color="primary"
+              onClick={this.handlePreviousPageClick}
+            >
+              Back
+            </Button>
             : <div />
         }
         {
           this.props.nextPageUrl &&
-          <Button raised color="secondary" onClick={this.handleNextPageClick}>More...</Button>
+          <Button
+            disabled={this.state.loading}
+            raised="true"
+            color="secondary"
+            onClick={this.handleNextPageClick}
+          >
+            More...
+            </Button>
         }
       </div>
     );
