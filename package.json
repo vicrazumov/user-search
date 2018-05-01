@@ -1,0 +1,26 @@
+{
+  "name": "user-search",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "prestart": "npm i && cd client && npm i",
+    "start": "concurrently --kill-others \"node index.js\" \"cd client && npm run start\""
+  },
+  "author": "Viktor Razumov",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "chai-sorted": "^0.1.0",
+    "chai-things": "^0.2.0",
+    "concurrently": "^3.5.1",
+    "mocha": "^5.0.0"
+  }
+}
